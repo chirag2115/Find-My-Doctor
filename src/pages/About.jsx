@@ -5,7 +5,7 @@ export default function About() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-extrabold mb-6 text-blue-700">About Us</h1>
           <p className="text-lg mb-6 leading-relaxed">
-            <strong>Find My Doctor</strong> is on a mission to make healthcare more accessible and transparent. We connect patients with trusted healthcare professionals in their area based on specialization, availability, and reviews.
+            <strong>Find My Doctor</strong> is on a mission to make healthcare more accessible and transparent. We connect patients with trusted healthcare professionals in their area based on specialization and location.
           </p>
   
           <div className="mt-10">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { databases, Query } from '../appwrite';
 import DoctorCard from '../components/DoctorCard';
 
@@ -6,6 +6,7 @@ export default function Home() {
   const [doctors, setDoctors] = useState([]);
   const [location, setLocation] = useState('');
   const [specialty, setSpecialty] = useState('');
+  const [isSearched, setIsSearched] = useState(false); // Track if search was performed
 
   const searchDoctors = async () => {
     try {
@@ -21,15 +22,11 @@ export default function Home() {
       );
 
       setDoctors(response.documents);
+      setIsSearched(true); // Mark that a search was made
     } catch (error) {
       console.log('Error fetching doctors:', error);
     }
   };
-
-  // Optional: Show all doctors initially
-  useEffect(() => {
-    searchDoctors();
-  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-6">
@@ -43,7 +40,6 @@ export default function Home() {
             onChange={(e) => setLocation(e.target.value)}
           >
             <option value="">Select City</option>
-            <option value="Vadodara">Vadodara</option>
             <option value="Nadiad">Nadiad</option>
             <option value="Ahmedabad">Ahmedabad</option>
           </select>
@@ -62,8 +58,6 @@ export default function Home() {
             <option value="Gynecologist">Gynecologist</option>
             <option value="Ophthalmologist">Ophthalmologist</option>
             <option value="Psychiatrist">Psychiatrist</option>
-            <option value="ENT">ENT</option>
-            <option value="General Physician">General Physician</option>
           </select>
 
           <button
@@ -74,16 +68,18 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {doctors.length > 0 ? (
-            doctors.map((doctor) => (
-              <DoctorCard key={doctor.$id} doctor={doctor} />
-            ))
-          ) : (
-            <p className="text-gray-500 text-center col-span-full">
-              No doctors found for selected filters.
-            </p>
-          )}
+        <div className="grid grid-cols-1 gap-6">
+          {isSearched ? (
+            doctors.length > 0 ? (
+              doctors.map((doctor) => (
+                <DoctorCard key={doctor.$id} doctor={doctor} />
+              ))
+            ) : (
+              <p className="text-gray-500 text-center col-span-full">
+                No doctors found for selected filters.
+              </p>
+            )
+          ) : null}
         </div>
       </div>
     </div>
